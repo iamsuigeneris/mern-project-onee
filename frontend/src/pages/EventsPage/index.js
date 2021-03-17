@@ -4,20 +4,20 @@ import { Alert, Button, Container, Form, FormGroup, Input,Label } from 'reactstr
 import cameraIcon from '../../assets/camera.png'
 import './events.css'
 
-export default function EventsPage() {
+export default function EventsPage({history}) {
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
     const [price,setPrice] = useState('')
     const [sport,setSport] = useState('')
     const [thumbnail,setThumbnail] = useState(null)
     const [date,setDate] = useState('')
-    const [errorMessage,setErrorMessage] = useState(false)
+    const [error,setError] = useState(false)
+    const [success,setSuccess] = useState(false)
+
 
     const preview = useMemo(() => {
         return thumbnail ? URL.createObjectURL(thumbnail): null
     },[thumbnail])
-
-    console.log(title,description,price,sport)
 
     const submitHandler = async (evt) => {
         const user_id = localStorage.getItem('user')
@@ -39,14 +39,17 @@ export default function EventsPage() {
                 price !== "" && 
                 thumbnail !== null 
             ){
-                console.log("Event has been sent")
+               
                 await api.post("/event",eventData,{headers:{user_id}})
-                console.log("eventData")
-                console.log("Event has been saved")
-            }else{
-                setErrorMessage(true)
+                setSuccess(true)
                 setTimeout(()=>  {
-                    setErrorMessage(false)
+                    setSuccess(false)
+                },2000)
+     
+            }else{
+                setError(true)
+                setTimeout(()=>  {
+                    setError(false)
                 },2000)
                 console.log('Missing required data')
             }
@@ -61,6 +64,7 @@ export default function EventsPage() {
         <Container>
            <h1>Create your Event</h1>
            <Form onSubmit={submitHandler}>
+            <div className="input-group">
             <FormGroup>
                 <Label>Upload Image: </Label>
                 <Label id='thumbnail' style={{backgroundImage : `url(${preview})`}} className={thumbnail ? 'has-thumbnail': null}>
@@ -88,13 +92,18 @@ export default function EventsPage() {
                 <Label>Event Date: </Label>
                 <Input type="date" id="date" value={date} placeholder={"Event date"} onChange={evt => setDate(evt.target.value)} />
             </FormGroup>
-            <Button type="submit">
-                Submit
-            </Button>
+            <FormGroup> <Button type="submit" className="submit-btn">Submit </Button> </FormGroup>
+            <FormGroup> 
+                <Button type="submit" className="secondary-btn" onClick={() => history.push("/dashboard")}>Dashboard </Button> 
+            </FormGroup>
+            </div>
            </Form>
-           { errorMessage ? (
+           { error ? (
                <Alert className="event-validation" color="danger">Missing required information</Alert>
            ):""}
+            { success ? (
+               <Alert className="event-validation" color="sucess">The event was created successfully</Alert>
+           ):""}y
         </Container>
     )
 }
