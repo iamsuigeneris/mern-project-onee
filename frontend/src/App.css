@@ -9,10 +9,10 @@
 html,
 body,
 #root{
-    min-width: border-box;
+    min-width: 100%;
 }
 body{
-    background: rgba(0,0,0,0.8) url("./assets/newback.jpg") no-repeat;
+    background: rgba(0,0,0,0.5) url("./assets/newback.jpg") no-repeat;
     background-size: cover;
     -webkit-font-smoothing:antialised !important;
 }
@@ -24,7 +24,7 @@ botton {
 }
 .container{
     margin:80px auto;;
-    max-width: 450px;
+    max-width: 750px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -32,23 +32,23 @@ botton {
 }
 .container h1{
     color: #f05a5b;
-    background: oldlace;
-    width: 80%;
+    /* background: oldlace; */
+    /* width: 80%; */
     font-size: 36px;
-    text-align: center;
+    /* text-align: center; */
 }
 .content {
     width: 80%;
     opacity: 0.8;
-    background: #fff;
-    margin-top: 50px;
+    background: #ffffff;
+    margin-top: 20px;
     border-radius: 4px;
     padding: 30px;
 }
 .content > p {
     font-size: 22px;
     line-height: 30px;
-    margin-bottom:30;
+    margin-bottom:30px;
 }
 .content button.submit-btn{
     border: 0;
@@ -80,7 +80,7 @@ botton {
 }
 .content button.secondary-btn:hover {
     background: #286090;
-    opacity: pointer;
+    opacity: 1;
 }
 .content div.input-group{
     display: flex;
