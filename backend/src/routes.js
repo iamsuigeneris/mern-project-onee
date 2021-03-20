@@ -31,7 +31,9 @@ routes.post('/login', LoginController.store)
 // Dashboard
 routes.get('/dashboard/:sport',DashboardController.getAllEvents)
 routes.get('/dashboard',DashboardController.getAllEvents)
-routes.get('/dashboard/:event_id', DashboardController.getEventById)
+routes.get('/user/:events', DashboardController.getEventsByUserId)
+routes.get('/event/:event_id', DashboardController.getEventById)
+// routes.get('/dashboard/:event_id', DashboardController.getEventById)
 
 // Events
 routes.post('/event', upload.single("thumbnail"), EventController.createEvent)

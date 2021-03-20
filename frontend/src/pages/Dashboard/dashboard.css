@@ -25,6 +25,16 @@ ul.events-list li strong{
     font-size: 24px;
     color: #444;
 }
+div.filter-panel {
+    display: flex;
+    font-size: 11px;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+ul.events-list header div{
+    display: flex;
+    flex-direction: row-reverse;
+}
 
 @media (max-width:768px){
     ul.events-list{
