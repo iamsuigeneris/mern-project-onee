@@ -1,5 +1,6 @@
 const express = require('express')
 const multer = require('multer')
+const verifyToken = require('./config/verifyToken')
 
 const UserController = require('./controllers/UserController')
 const EventController = require('./controllers/EventController')
@@ -29,15 +30,15 @@ routes.post('/registration/:registration_id/rejections',RejectionController.reje
 routes.post('/login', LoginController.store)
 
 // Dashboard
-routes.get('/dashboard/:sport',DashboardController.getAllEvents)
-routes.get('/dashboard',DashboardController.getAllEvents)
-routes.get('/user/:events', DashboardController.getEventsByUserId)
-routes.get('/event/:event_id', DashboardController.getEventById)
+routes.get('/dashboard/:sport',verifyToken, DashboardController.getAllEvents)
+routes.get('/dashboard',verifyToken, DashboardController.getAllEvents)
+routes.get('/user/:events',verifyToken, DashboardController.getEventsByUserId)
+routes.get('/event/:event_id', verifyToken, DashboardController.getEventById)
 // routes.get('/dashboard/:event_id', DashboardController.getEventById)
 
 // Events
-routes.post('/event', upload.single("thumbnail"), EventController.createEvent)
-routes.delete('/event/:event_id', EventController.delete)
+routes.post('/event',verifyToken, upload.single("thumbnail"), EventController.createEvent)
+routes.delete('/event/:event_id', verifyToken, EventController.delete)
 
 // User
 routes.post('/user/register', UserController.createUser)
