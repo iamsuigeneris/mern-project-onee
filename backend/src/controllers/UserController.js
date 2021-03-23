@@ -1,47 +1,50 @@
-const User = require('../models/User')
 const bcrypt = require('bcrypt')
+const User = require('../models/User')
+const jwt = require('jsonwebtoken')
 
 module.exports = {
-    async createUser(req,res){
-        try {
-            console.log(req.body)
-            const {firstName,lastName,email,password} = req.body
+	async createUser(req, res) {
+		try {
+			const { email, firstName, lastName, password } = req.body
+			const existentUser = await User.findOne({ email })
 
-            const existingUser = await User.findOne({email})
-            if(!existingUser){
-                const hashedPassword = await bcrypt.hash(password, 10)
-                const user = await User.create({
-                    firstName,
-                    lastName,
-                    email,
-                    password:hashedPassword
-                })
-                return res.json({
-                    _id:user._id,
-                    email:user.email,
-                    firstName:user.firstName,
-                    lastName:user.lastName
-                })
-            }
-            return res.status(400).json({
-                message: "User already exist! do you want to login?"
-            })
-        } catch (error) {
-            throw Error(`Error while registering new user ${error}`)
-        }
-    },
+			if (!existentUser) {
+				const hashPassword = await bcrypt.hash(password, 10)
+				const userResponse = await User.create({
+					email,
+					firstName,
+					lastName,
+					password: hashPassword,
+				})
 
-    async getUserById(req,res){
-        const {user_id} = req.params
+				return jwt.sign({ user: userResponse }, 'secret', (err, token) => {
+					return res.json({
+						user: token,
+						user_id: userResponse._id
+					})
+				})
+			} else {
+				return res.status(400).json({
+					message:
+						'email already exist!  do you want to login instead? ',
+				})
+			}
+		} catch (err) {
+			throw Error(`Error while Registering new user :  ${err}`)
+		}
+	},
 
-        try {
-            const user = await User.findById(user_id)
-            return res.json(user)
-            
-        } catch (error) {
-            return res.status(400).json({
-                message: "User ID does not exist, do you want to register?"
-            })
-        }
-    }
+	async getUserById(req, res) {
+		const { userId } = req.params
+
+		try {
+			const user = await User.findById(userId)
+			return res.json(user)
+		} catch (error) {
+			return res.status(400).json({
+				message:
+					'User ID does not exist, do you want to register instead?',
+			})
+		}
+	}
 }

@@ -17,7 +17,7 @@ export default function EventsPage({ history }) {
     const user = localStorage.getItem('user');
 
     useEffect(() => {
-        if(!user) history.push('./login')
+        if (!user) history.push('/login');
     }, [])
 
     const toggle = () => setOpen(!dropdownOpen);
@@ -37,6 +37,7 @@ export default function EventsPage({ history }) {
         eventData.append("price", price)
         eventData.append("description", description)
         eventData.append("date", date)
+
 
         try {
             if (title !== "" &&
@@ -63,7 +64,9 @@ export default function EventsPage({ history }) {
             console.log(error);
         }
     }
+
     const sportEventHandler = (sport) => setSport(sport);
+
     return (
         <Container>
             <h2>Create your Event</h2>
