@@ -28,6 +28,9 @@ const TopNav = () => {
                         <NavItem>
                             <Link to="/">Dashboard</Link>
                         </NavItem>
+                        <NavItem>
+                            <Link to="/myregistration">My Registration</Link>
+                        </NavItem>
                     </Nav>
                 </Collapse>
             </Navbar>
